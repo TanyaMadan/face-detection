@@ -1,0 +1,45 @@
+#import open cv library to include face classifier and other related function
+import cv2
+
+#import the  face cascade classifier
+face_cascade=cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
+
+# collect the video from webcam
+# create object to capture video 
+cap = cv2.VideoCapture(0)
+
+
+#run infinite loop to read and detect faces
+while True:
+     # read frame
+    _, image = cap.read()
+
+    #convert the image into grayscale image
+    #takes two argument one is image itself and other one is colour conversion
+    #here we convert BGR image to gray image
+    gray=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+
+
+    #uses below function to detect face from the image
+    faces=face_cascade.detectMultiScale(gray,1.2,4)
+
+    #for drawing rectangle around the faces
+    # x,y coordinates and w is weight and h is height
+    for(x,y,w,h) in faces:
+
+        #takes five argument
+        #image itself,point1,point2,color=green,thickness of rectangle box=3
+        cv2.rectangle(image, (x,y), (x+w, y+h), (255,0,0), 3)
+
+    #showing or displaying image
+    cv2.imshow('image',image)
+
+    #ACSII value of esc==27 so we use it to terminating
+    # esc for terminating loop
+    k=cv2.waitKey(30) 
+    if k==27:
+     break
+
+#  use below function to free capture object
+cap.release()
